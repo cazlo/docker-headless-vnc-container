@@ -1,0 +1,20 @@
+version: "2"
+
+services:
+  vnc-xfce:
+    build:
+        context: .
+        dockerfile: Dockerfile.rocky-xfce-vnc
+    volumes:
+      - /dev/shm:/dev/shm
+
+    ports:
+      - "5901:5901"
+      - "6901:6901"
+
+    devices:
+      - "/dev/kfd:/dev/kfd"
+      - "/dev/dri/:/dev/dri/"
+
+    group_add:
+      - video

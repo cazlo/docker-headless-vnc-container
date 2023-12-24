@@ -57,6 +57,14 @@ ADD ./src/common/scripts $STARTUPDIR
 RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 RUN $INST_SCRIPTS/rocky.sh
 
+COPY ./src/amdgpu/xorg/ /usr/share/X11/xorg.conf.d/
+
+RUN dnf config-manager --set-enabled crb
+COPY ./src/amdgpu/amdgpu.repo /etc/yum.repos.d/amdgpu.repo
+COPY ./src/amdgpu/rocm.repo /etc/yum.repos.d/rocm.repo
+RUN yum clean all
+RUN dnf install -y rocm-dev
+
 USER 1000
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
