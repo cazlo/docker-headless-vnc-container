@@ -65,6 +65,10 @@ COPY ./src/amdgpu/rocm.repo /etc/yum.repos.d/rocm.repo
 RUN yum clean all
 RUN dnf install -y rocm-dev
 
+RUN dnf install -y mesa-libGLU libXv
+COPY ./src/amdgpu/VirtualGL-3.1.x86_64.rpm /tmp/VirtualGL-3.1.x86_64.rpm
+RUN rpm -i /tmp/VirtualGL-3.1.x86_64.rpm
+
 USER 1000
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
