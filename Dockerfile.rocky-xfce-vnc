@@ -72,12 +72,13 @@ RUN rpm -i /tmp/VirtualGL-3.1.x86_64.rpm
 COPY ./src/amdgpu/turbovnc.repo /etc/yum.repos.d/turbovnc.repo
 RUN dnf install -y turbovnc  xorg-x11-xauth glx-utils
 
-RUN printf "3\nn\nx\n" | /opt/VirtualGL/bin/vglserver_config
-RUN groupadd -g 44 videodocker
-RUN groupadd -g 109 renderdocker
+RUN printf "1\nn\nn\nn\nx\n" | /opt/VirtualGL/bin/vglserver_config
+#RUN groupadd -g 39 videodocker
+#RUN groupadd -g 105 renderdocker
 RUN adduser -u 1000 user
-RUN usermod -a -G videodocker user
-RUN usermod -a -G renderdocker user
+#RUN usermod -a -G videodocker user
+#RUN usermod -a -G renderdocker user
+RUN chown -R 1000:1000 $HOME/.cache
 
 COPY ./src/amdgpu/xorg/99-virtualgl-dri.conf /etc/X11/xorg.conf.d/99-virtualgl-dri.conf
 COPY ./src/amdgpu/99-virtualgl-dri.rules /etc/udev/rules.d/99-virtualgl-dri.rules
