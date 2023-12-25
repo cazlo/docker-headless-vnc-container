@@ -11,10 +11,28 @@ services:
     ports:
       - "5901:5901"
       - "6901:6901"
-
+      - "8443:8443"
+    environment:
+      DEBUG: "true"
+      DISPLAY: ":1"
+      VGL_DISPLAY: "/dev/dri/card0"
+      VNC_RESOLUTION: "3840x2160"
     devices:
       - "/dev/kfd:/dev/kfd"
-      - "/dev/dri/:/dev/dri/"
-
+      - "/dev/dri/:/dev/dri/:rw"
+      - "/dev/vga_arbiter:/dev/vga_arbiter"
+      - "/dev/dri/renderD128:/dev/dri/renderD128"
+      - "/dev/dri/card0:/dev/dri/card0"
+    tty: true
+    command:
+      - /bin/bash
+#    user: "root"
+    user: "1000:1000"
+    userns_mode: "host"
     group_add:
       - video
+      - render
+      - 44 # video
+      - 109 # render
+#      - "226," #mystery
+      - 226 # mystery
